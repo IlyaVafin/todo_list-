@@ -1,7 +1,8 @@
+import Profile from "@/modules/profile/Profile"
 
 const ProfilePage = () => {
   return (
-    <div>Profile</div>
+    <Profile/>
   )
 }
 

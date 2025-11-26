@@ -59,6 +59,10 @@ let AuthService = class AuthService {
             refreshToken,
         };
     }
+    me(access_token) {
+        const { user } = this.jwtService.decode(access_token);
+        return user;
+    }
     async generateNewAccessToken(refreshToken) {
         try {
             const payload = await this.jwtService.verifyAsync(refreshToken, {

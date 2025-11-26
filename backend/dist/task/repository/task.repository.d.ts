@@ -11,29 +11,29 @@ export declare class TaskRepository {
     }[]>;
     create(userId: string, dto: CreateTaskDTO): Promise<{
         id: string;
-        createdAt: Date;
-        updatedAt: Date;
         title: string;
         body: string;
         done: boolean;
         userId: string;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     update(taskId: string, dto: Partial<CreateTaskDTO>): Promise<{
         id: string;
-        createdAt: Date;
-        updatedAt: Date;
         title: string;
         body: string;
         done: boolean;
         userId: string;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
     delete(taskId: string): Promise<{
         id: string;
-        createdAt: Date;
-        updatedAt: Date;
         title: string;
         body: string;
         done: boolean;
         userId: string;
+        createdAt: Date;
+        updatedAt: Date;
     }>;
 }

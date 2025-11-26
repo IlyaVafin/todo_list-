@@ -13,6 +13,11 @@ export declare class AuthService {
         accessToken: string;
         refreshToken: string;
     }>;
+    me(access_token: string): {
+        sub: string;
+        email: string;
+        name: string;
+    };
     generateNewAccessToken(refreshToken: string): Promise<{
         accessToken: string;
     }>;

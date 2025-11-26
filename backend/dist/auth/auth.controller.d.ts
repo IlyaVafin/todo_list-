@@ -12,4 +12,9 @@ export declare class AuthController {
         message: string;
     }>;
     logout(response: Response): void;
+    me(request: AuthCookieRequest): {
+        sub: string;
+        email: string;
+        name: string;
+    };
 }

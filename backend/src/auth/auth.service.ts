@@ -55,6 +55,10 @@ export class AuthService {
             refreshToken,
         };
     }
+    me(access_token: string) {
+        const { user } = this.jwtService.decode<JwtPayload>(access_token);
+        return user;
+    }
     async generateNewAccessToken(refreshToken: string) {
         try {
             const payload: JwtRefreshPayload =

@@ -1,16 +1,19 @@
 import {
     Body,
     Controller,
+    Get,
     HttpCode,
     Post,
     Req,
     Res,
     UnauthorizedException,
+    UseGuards,
 } from "@nestjs/common";
 import { type Response } from "express";
 import { AuthService } from "./auth.service";
 import { type AuthCookieRequest } from "./interfaces/auth.cookie.request.interface";
 import { type Login } from "./interfaces/login.interface";
+import { AuthGuard } from "./guard/auth.guard";
 
 @Controller("auth")
 export class AuthController {
@@ -59,5 +62,11 @@ export class AuthController {
     logout(@Res({ passthrough: true }) response: Response) {
         response.clearCookie("access_token");
         response.clearCookie("refresh_token");
+    }
+    @UseGuards(AuthGuard)
+    @Get("me")
+    @HttpCode(200)
+    me(@Req() request: AuthCookieRequest) {
+        return this.authService.me(request.cookies.access_token ?? "");
     }
 }

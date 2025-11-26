@@ -16,6 +16,9 @@ export class TaskRepository {
                 body: true,
                 done: true,
             },
+            orderBy: {
+                createdAt: "asc",
+            },
         });
     }
     async create(userId: string, dto: CreateTaskDTO) {
