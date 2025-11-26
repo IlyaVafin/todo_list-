@@ -51,7 +51,7 @@ class ApiHandler {
 			})
 			if (!response.ok) {
 				const errorData: ResponseError = await response.json()
-        throw new Error(errorData.message)
+				throw new Error(errorData.message)
 			}
 			const successData: K = await response.json()
 			return { success: true, data: successData }
@@ -85,7 +85,39 @@ class ApiHandler {
 			})
 			if (!response.ok) {
 				const errorData: ResponseError = await response.json()
-        throw new Error(errorData.message)
+				throw new Error(errorData.message)
+			}
+			const successData: K = await response.json()
+			return { success: true, data: successData }
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				throw {
+					message: error.message,
+					error: error.name,
+					statusCode: 0,
+					success: false,
+				}
+			}
+			throw {
+				message: "Someting wrong",
+				error: "Unknown error",
+				statusCode: 500,
+				success: false,
+			}
+		}
+	}
+	async delete<K>(url: string): Promise<ResponseFormApi<K>> {
+		try {
+			const response = await fetch(`${this.BASE_URL}${url}`, {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				credentials: "include",
+			})
+			if (!response.ok) {
+				const errorData: ResponseError = await response.json()
+				throw new Error(errorData.message)
 			}
 			const successData: K = await response.json()
 			return { success: true, data: successData }

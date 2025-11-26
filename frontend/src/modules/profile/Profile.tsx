@@ -1,6 +1,8 @@
 import { api } from "@/shared/api/ApiHandler"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import type { Task, User } from "./types"
+import { Button } from "@/components/button/button"
+import { profile } from "./api/ProfileApi"
 
 const Profile = () => {
 	const queryClient = useQueryClient()
@@ -21,14 +23,8 @@ const Profile = () => {
 		queryFn: getTasks,
 	})
 
-	const changeStatusTask = async (id: string, done: boolean) => {
-		return await api.put<{ done: boolean }, null>(`/task/${id}`, {
-			done,
-		})
-	}
-
 	const { mutate: updateStatus } = useMutation({
-		mutationFn: ({ id, done }) => changeStatusTask(id, done),
+		mutationFn: ({ id, done }) => profile.changeStatusTask(id, done),
 		onMutate: async ({ id, done }: { id: string; done: boolean }) => {
 			await queryClient.cancelQueries({ queryKey: ["tasks"] })
 			const previousTasks = await queryClient.getQueryData(["tasks"])
@@ -40,6 +36,30 @@ const Profile = () => {
 						data: old.data?.map(task =>
 							task.id === id ? { ...task, done } : task
 						),
+					}
+				}
+			)
+			return { previousTasks }
+		},
+		onError: (_, __, context) => {
+			queryClient.setQueryData(["tasks"], context?.previousTasks)
+		},
+		onSettled: () => {
+			queryClient.invalidateQueries({ queryKey: ["tasks"] })
+		},
+	})
+
+	const { mutate: deleteTask } = useMutation({
+		mutationFn: (id: string) => profile.deleteTaskRequest(id),
+		onMutate: async id => {
+			await queryClient.cancelQueries({ queryKey: ["tasks"] })
+			const previousTasks = await queryClient.getQueryData(["tasks"])
+			await queryClient.setQueryData(
+				["tasks"],
+				(old: { success: true; data: Task[] | undefined }) => {
+					return {
+						...old,
+						data: old.data?.filter(task => task.id !== id),
 					}
 				}
 			)
@@ -67,7 +87,7 @@ const Profile = () => {
 			</picture>
 			<p>Tasks</p>
 			{tasks?.success && (
-				<ul className='flex flex-col gap-4'>
+				<ul className='flex flex-col gap-4 mb-20'>
 					{tasks.data.map(task => (
 						<li
 							key={task.id}
@@ -84,11 +104,12 @@ const Profile = () => {
 									checked={task.done}
 								/>
 							</div>
-							<button>
+							<button onClick={() => deleteTask(task.id)}>
 								<img className='max-w-9' src='/delete.svg' alt='' />
 							</button>
 						</li>
 					))}
+          <Button variant={"destructive"}>Добавить задачу + </Button>
 				</ul>
 			)}
 		</div>
