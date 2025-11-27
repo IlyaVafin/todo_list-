@@ -1,9 +1,9 @@
-import { Button } from "@/components/button/button"
 import { api } from "@/shared/api/ApiHandler"
 import { useAuthContext } from "@/shared/context/auth/useAuthContext"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { profile } from "./api/ProfileApi"
 import type { Task } from "./types"
+import CreateTaskModal from "./ui/CreateTaskModal"
 
 const Profile = () => {
 	const queryClient = useQueryClient()
@@ -88,7 +88,9 @@ const Profile = () => {
 						{tasks.data.map(task => (
 							<li
 								key={task.id}
-								className='p-4 bg-neutral-50 rounded-md flex justify-between'
+								className={`p-4 bg-neutral-50 rounded-md transition-opacity flex justify-between ${
+									task.done ? "opacity-50" : ""
+								}`}
 							>
 								<div>
 									<h3 className='text-2xl text-neutral-800'>{task.title}</h3>
@@ -107,11 +109,9 @@ const Profile = () => {
 							</li>
 						))}
 					</ul>
-					<Button className='mt-4' variant={"destructive"}>
-						Добавить задачу +{" "}
-					</Button>
 				</div>
 			)}
+			<CreateTaskModal />
 		</div>
 	)
 }
