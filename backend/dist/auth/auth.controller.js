@@ -54,7 +54,10 @@ let AuthController = class AuthController {
         response.clearCookie("refresh_token");
     }
     me(request) {
-        return this.authService.me(request.cookies.access_token ?? "");
+        if (!request.cookies.access_token) {
+            return false;
+        }
+        return this.authService.me(request.cookies.access_token);
     }
 };
 exports.AuthController = AuthController;

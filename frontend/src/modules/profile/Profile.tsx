@@ -1,18 +1,14 @@
-import { api } from "@/shared/api/ApiHandler"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import type { Task, User } from "./types"
 import { Button } from "@/components/button/button"
+import { api } from "@/shared/api/ApiHandler"
+import { useAuthContext } from "@/shared/context/auth/useAuthContext"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { profile } from "./api/ProfileApi"
+import type { Task } from "./types"
 
 const Profile = () => {
 	const queryClient = useQueryClient()
-	const getUser = async () => {
-		return await api.get<User>("/auth/me")
-	}
-	const { data } = useQuery({
-		queryKey: ["user"],
-		queryFn: getUser,
-	})
+
+	const { user } = useAuthContext()
 
 	const getTasks = async () => {
 		return await api.get<Task[]>("/task")
@@ -75,10 +71,10 @@ const Profile = () => {
 
 	return (
 		<div>
-			{data?.success && (
+			{user && (
 				<>
-					<h1 className='text-4xl'>{data.data.name}</h1>
-					<p>{data.data.email}</p>
+					<h1 className='text-4xl'>{user.name}</h1>
+					<p>{user.email}</p>
 				</>
 			)}
 			<picture>
@@ -109,7 +105,7 @@ const Profile = () => {
 							</button>
 						</li>
 					))}
-          <Button variant={"destructive"}>Добавить задачу + </Button>
+					<Button variant={"destructive"}>Добавить задачу + </Button>
 				</ul>
 			)}
 		</div>

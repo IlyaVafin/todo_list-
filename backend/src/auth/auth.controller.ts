@@ -67,6 +67,9 @@ export class AuthController {
     @Get("me")
     @HttpCode(200)
     me(@Req() request: AuthCookieRequest) {
-        return this.authService.me(request.cookies.access_token ?? "");
+        if (!request.cookies.access_token) {
+            return false;
+        }
+        return this.authService.me(request.cookies.access_token);
     }
 }
