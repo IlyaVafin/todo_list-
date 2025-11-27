@@ -83,30 +83,34 @@ const Profile = () => {
 			</picture>
 			<p>Tasks</p>
 			{tasks?.success && (
-				<ul className='flex flex-col gap-4 mb-20'>
-					{tasks.data.map(task => (
-						<li
-							key={task.id}
-							className='border border-input p-4 bg-neutral-50 rounded-xl flex justify-between'
-						>
-							<div>
-								<h3 className='text-2xl text-neutral-800'>{task.title}</h3>
-								<p className='text-neutral-800'>{task.body}</p>
-								<input
-									onChange={() =>
-										updateStatus({ id: task.id, done: !task.done })
-									}
-									type='checkbox'
-									checked={task.done}
-								/>
-							</div>
-							<button onClick={() => deleteTask(task.id)}>
-								<img className='max-w-9' src='/delete.svg' alt='' />
-							</button>
-						</li>
-					))}
-					<Button variant={"destructive"}>Добавить задачу + </Button>
-				</ul>
+				<div>
+					<ul className='flex flex-col gap-4'>
+						{tasks.data.map(task => (
+							<li
+								key={task.id}
+								className='p-4 bg-neutral-50 rounded-md flex justify-between'
+							>
+								<div>
+									<h3 className='text-2xl text-neutral-800'>{task.title}</h3>
+									<p className='text-neutral-800'>{task.body}</p>
+									<input
+										onChange={() =>
+											updateStatus({ id: task.id, done: !task.done })
+										}
+										type='checkbox'
+										checked={task.done}
+									/>
+								</div>
+								<button onClick={() => deleteTask(task.id)}>
+									<img className='max-w-9' src='/delete.svg' alt='' />
+								</button>
+							</li>
+						))}
+					</ul>
+					<Button className='mt-4' variant={"destructive"}>
+						Добавить задачу +{" "}
+					</Button>
+				</div>
 			)}
 		</div>
 	)
