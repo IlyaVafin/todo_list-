@@ -18,11 +18,11 @@ export declare class TaskService {
     update(taskId: string, dto: Partial<CreateTaskDTO>): Promise<void>;
     delete(taskId: string): Promise<{
         id: string;
+        createdAt: Date;
+        updatedAt: Date;
         title: string;
         body: string;
         done: boolean;
         userId: string;
-        createdAt: Date;
-        updatedAt: Date;
     }>;
 }

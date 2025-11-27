@@ -30,6 +30,5 @@ export class UserRepository {
                 password,
             },
         });
-        return { success: "true" };
     }
 }

@@ -13,10 +13,11 @@ export class UserService {
             throw new ConflictException("User with this email already exists");
         }
         const hashedPassword = await hash(password, 10);
-        return await this.userRepository.create({
+        await this.userRepository.create({
             email,
             name,
             password: hashedPassword,
         });
+        return { success: "true" };
     }
 }

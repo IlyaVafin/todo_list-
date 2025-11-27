@@ -6,7 +6,5 @@ export declare class UserRepository {
     constructor(prismaService: PrismaService);
     findByEmail(email: string): Promise<User | null>;
     findById(id: string): Promise<User | null>;
-    create(dto: CreateUserDTO): Promise<{
-        success: string;
-    }>;
+    create(dto: CreateUserDTO): Promise<void>;
 }

@@ -40,7 +40,6 @@ let UserRepository = class UserRepository {
                 password,
             },
         });
-        return { success: "true" };
     }
 };
 exports.UserRepository = UserRepository;
