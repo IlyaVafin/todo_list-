@@ -4,8 +4,10 @@ import LoginPage from "../pages/LoginPage"
 import ProfilePage from "../pages/ProfilePage"
 import RegisterPage from "../pages/RegisterPage"
 import RequiredAuth from "@/components/requeiredAuth/RequiredAuth"
+import { useRefreshToken } from "@/shared/hooks/useRefreshToken"
 
 const App = () => {
+	useRefreshToken()
 	return (
 		<>
 			<Routes>

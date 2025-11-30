@@ -8,5 +8,5 @@ interface TaskResponse {
 	}
 }
 export const createTask = async (task: Task) => {
-	await api.post<Task, TaskResponse>("/task", task)
+	return await api.post<Task, TaskResponse>("/task", task)
 }

@@ -7,6 +7,7 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 	const { data, refetch } = useQuery({
 		queryFn: getUser,
 		queryKey: ["user-me"],
+		retry: false
 	})
 	const isAuth = data?.success ? true : false
 	const user = data?.success ? data.data : null

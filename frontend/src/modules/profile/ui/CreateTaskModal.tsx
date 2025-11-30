@@ -23,10 +23,15 @@ const CreateTaskModal = () => {
 		title: "",
 	})
 	const queryClient = useQueryClient()
-	const { mutate, isPending } = useMutation({
+	const { data, mutate, isPending } = useMutation({
 		mutationFn: createTask,
 		onSettled: () => {
 			queryClient.invalidateQueries({ queryKey: ["tasks"] })
+			setNewTask({
+				body: "",
+				done: false,
+				title: "",
+			})
 		},
 	})
 	return (
@@ -38,7 +43,7 @@ const CreateTaskModal = () => {
 			</DialogTrigger>
 			<DialogContent>
 				<form
-				className="flex flex-col gap-4"
+					className='flex flex-col gap-4'
 					onSubmit={e => {
 						e.preventDefault()
 						mutate(newTask)
@@ -75,6 +80,9 @@ const CreateTaskModal = () => {
 							Create
 						</Button>
 					</DialogFooter>
+					{data && data.success && (
+						<DialogDescription className="text-green-400">{data.data.message}</DialogDescription>
+					)}
 				</form>
 			</DialogContent>
 		</Dialog>
