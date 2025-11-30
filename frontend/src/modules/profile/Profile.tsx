@@ -81,34 +81,46 @@ const Profile = () => {
 				<source media='(max-width: 768px)' srcSet='/avatar-mobile.png' />
 				<img src='/avatar.png' alt='user-avatar' />
 			</picture>
-			<p>Tasks</p>
+			<p>Задачи</p>
 			{tasks?.success && (
 				<div>
-					<ul className='flex flex-col gap-4'>
-						{tasks.data.map(task => (
-							<li
-								key={task.id}
-								className={`p-4 bg-neutral-50 rounded-md transition-opacity flex justify-between ${
-									task.done ? "opacity-50" : ""
-								}`}
-							>
-								<div>
-									<h3 className='text-2xl text-neutral-800'>{task.title}</h3>
-									<p className='text-neutral-800'>{task.body}</p>
-									<input
-										onChange={() =>
-											updateStatus({ id: task.id, done: !task.done })
-										}
-										type='checkbox'
-										checked={task.done}
-									/>
-								</div>
-								<button onClick={() => deleteTask(task.id)}>
-									<img className='max-w-9' src='/delete.svg' alt='' />
-								</button>
-							</li>
-						))}
-					</ul>
+					{tasks.data.length === 0 ? (
+						<p>
+							Задач нет <br />{" "}
+							<span className='text-neutral-500'>добавьте свою первую :)</span>
+						</p>
+					) : (
+						<ul className='flex flex-col gap-4'>
+							{tasks.data.map(task => (
+								<li
+									key={task.id}
+									className={`p-4 bg-neutral-50 rounded-md transition-opacity flex justify-between ${
+										task.done ? "opacity-50" : ""
+									}`}
+								>
+									<div>
+										<h3 className='text-2xl text-neutral-800'>{task.title}</h3>
+										<p className='text-neutral-800'>{task.body}</p>
+										<input
+											onChange={() =>
+												updateStatus({ id: task.id ?? "", done: !task.done })
+											}
+											type='checkbox'
+											checked={task.done}
+											name={`task-checkbox-${task.title}`}
+										/>
+									</div>
+									<button onClick={() => deleteTask(task.id ?? "")}>
+										<img
+											className='max-w-9'
+											src='/delete.svg'
+											alt='delete-icon'
+										/>
+									</button>
+								</li>
+							))}
+						</ul>
+					)}
 				</div>
 			)}
 			<CreateTaskModal />

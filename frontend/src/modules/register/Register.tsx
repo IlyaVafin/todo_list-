@@ -1,6 +1,7 @@
 import { Button } from "@/components/button/button"
 import { Input } from "@/components/input/input"
 import { api } from "@/shared/api/ApiHandler"
+import { inputChangeState } from "@/shared/utils/inputChangeState"
 import { useMutation } from "@tanstack/react-query"
 import { useId, useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -23,9 +24,7 @@ const Register = () => {
 	const signUp = async (user: RegisterUser) => {
 		return await api.post<RegisterUser, { success: boolean }>("/user", user)
 	}
-	const handleChange = (field: string, value: string) => {
-		setRegister(prev => ({ ...prev, [field]: value }))
-	}
+
 	const { isPending, mutate } = useMutation({
 		mutationFn: signUp,
 		mutationKey: ["user-register"],
@@ -52,7 +51,9 @@ const Register = () => {
 				<div className='flex flex-col gap-2'>
 					<label htmlFor={`name_${id}`}>Name:</label>
 					<Input
-						onChange={e => handleChange("name", e.target.value)}
+						onChange={e =>
+							inputChangeState("name", e.target.value, setRegister)
+						}
 						value={register.name}
 						id={`name_${id}`}
 						placeholder='John Doe'
@@ -62,7 +63,9 @@ const Register = () => {
 				<div className='flex flex-col gap-2'>
 					<label htmlFor={`email_${id}`}>Email:</label>
 					<Input
-						onChange={e => handleChange("email", e.target.value)}
+						onChange={e =>
+							inputChangeState("email", e.target.value, setRegister)
+						}
 						value={register.email}
 						id={`email_${id}`}
 						placeholder='example@gmail.com'
@@ -72,7 +75,9 @@ const Register = () => {
 				<div className='flex flex-col gap-2'>
 					<label htmlFor={`password_${id}`}>Password</label>
 					<Input
-						onChange={e => handleChange("password", e.target.value)}
+						onChange={e =>
+							inputChangeState("password", e.target.value, setRegister)
+						}
 						value={register.password}
 						type='password'
 						id={`password_${id}`}
@@ -83,7 +88,9 @@ const Register = () => {
 				<div className='flex flex-col gap-2'>
 					<label htmlFor={`confirm_password_${id}`}>Confirm password</label>
 					<Input
-						onChange={e => handleChange("confirmPassword", e.target.value)}
+						onChange={e =>
+							inputChangeState("confirmPassword", e.target.value, setRegister)
+						}
 						value={register.confirmPassword}
 						type='password'
 						id={`confirm_password_${id}`}
