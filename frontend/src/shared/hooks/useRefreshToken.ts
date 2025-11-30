@@ -16,7 +16,7 @@ export const useRefreshToken = () => {
 		gcTime: 1000 * 60 * 15,
 		refetchOnWindowFocus: false,
 		refetchIntervalInBackground: true,
-		enabled: !isAuth,
+    enabled: !isAuth,
 	})
 	if (isSuccess) {
 		queryClient.invalidateQueries({ queryKey: ["refresh-token"] })
