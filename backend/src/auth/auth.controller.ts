@@ -40,6 +40,7 @@ export class AuthController {
         return { message: "Successfully login" };
     }
     @Get("refresh")
+    @UseGuards(AuthGuard)
     @HttpCode(200)
     async refresh(
         @Req() req: AuthCookieRequest,
